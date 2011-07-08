@@ -35,14 +35,6 @@ public class AuthInfo implements Serializable {
 		return ip;
 	}
 	
-	public String getPassword() {
-		return password;
-	}
-	
-	/*public boolean authenticate(Player player) {
-		return player.getAddress().getAddress().equals(getAddress());
-	}*/
-	
 	public boolean authenticate(String password) {
 		registered = true;
 		return password.equals(this.password);

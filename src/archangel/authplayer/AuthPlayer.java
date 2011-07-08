@@ -47,8 +47,10 @@ public class AuthPlayer extends JavaPlugin {
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, 
 				Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, 
+				Event.Priority.High, this);
 		pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, 
-				Event.Priority.Normal, this);
+				Event.Priority.High, this);
 		
 		db = new AuthDatabase(this);
 		

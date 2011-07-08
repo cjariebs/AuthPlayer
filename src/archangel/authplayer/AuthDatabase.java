@@ -102,16 +102,6 @@ public class AuthDatabase {
 		}
 	}
 	
-	/*public AuthInfo get(Player player) {
-		for (Entry<String, AuthInfo> entry : authMap.entrySet()) {
-			AuthInfo auth = entry.getValue();
-			if (auth.getAddress().equals(player.getAddress().getAddress()))
-				return auth;
-		}
-		
-		return null;
-	}*/
-	
 	public String toString() {
 		String returnString = "";
 		for (Entry<String, AuthInfo> entry : authMap.entrySet()) {
