@@ -1,0 +1,14 @@
+name: AuthPlayer
+main: archangel.authplayer.AuthPlayer
+version: 1.0
+
+commands:
+    listauth:
+        description: List authenticated players.
+    auth:
+        description: Authenticate a player.
+        usage: |
+            (Warning: It is not recommended to use the same password for this authentication plugin as your actual Minecraft account.)
+            ---
+            /auth [username] <password> - Register or log into account.
+            /auth list - List registered players
