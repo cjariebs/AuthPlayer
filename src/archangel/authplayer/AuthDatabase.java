@@ -41,7 +41,6 @@ public class AuthDatabase {
 			
 			// [?] Do the actual loading, brotha!
 			authMap = (HashMap<String, AuthInfo>)objStream.readObject();
-			cleanup();
 		} catch (FileNotFoundException e) {
 			File dataFolder = plugin.getDataFolder(); 
 			dataFolder.mkdirs();
@@ -95,12 +94,6 @@ public class AuthDatabase {
 		return authMap.get(name.toLowerCase());
 	}
 	
-	private void cleanup() {
-		for (Entry<String, AuthInfo> entry : authMap.entrySet()) {
-			if (!entry.getValue().isRegistered())
-				authMap.remove(entry.getKey());
-		}
-	}
 	
 	public String toString() {
 		String returnString = "";

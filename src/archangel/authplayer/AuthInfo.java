@@ -22,13 +22,11 @@ public class AuthInfo implements Serializable {
 	
 	private String password;
 	private InetAddress ip;
-	private boolean registered;
 	
 	public AuthInfo(Player player, String password) {
 		this.password = password;
 		this.ip = player.getAddress().getAddress();
 		
-		registered = false;
 	}
 	
 	public InetAddress getAddress() {
@@ -36,11 +34,7 @@ public class AuthInfo implements Serializable {
 	}
 	
 	public boolean authenticate(String password) {
-		registered = true;
 		return password.equals(this.password);
 	}
 
-	public boolean isRegistered() {
-		return registered;
-	}
 }
