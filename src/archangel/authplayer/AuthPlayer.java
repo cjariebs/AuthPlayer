@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Alex "Arcalyth" Riebs
  * License: Don't steal my shit. Give credit if you modify and/or redistribute any of my code.
  * Otherwise, you're free to do whatever else you want with it.
- * 
+ *
  * Also, the Bukkit license applies.
  */
 public class AuthPlayer extends JavaPlugin {
@@ -30,7 +30,7 @@ public class AuthPlayer extends JavaPlugin {
 	private final AuthPlayerBlockListener blockListener = new AuthPlayerBlockListener(this);
 
 	private AuthDatabase db;
-	
+
 	/*
 	 * @see org.bukkit.plugin.Plugin#onDisable()
 	 */
@@ -43,51 +43,49 @@ public class AuthPlayer extends JavaPlugin {
 	 * @see org.bukkit.plugin.Plugin#onEnable()
 	 */
 	@Override
-	public void onEnable() {		
+	public void onEnable() {
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, 
-				Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, 
-				Event.Priority.High, this);
-		pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, 
-				Event.Priority.High, this);
-		
+		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.High, this);
+		pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Event.Priority.High, this);
+    pm.registerEvent(Event.Type.PLAYER_PRELOGIN, playerListener, Event.Priority.High, this);
+
 		db = new AuthDatabase(this);
-		
+
 		log.info("AuthPlayer enabled.");
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("auth")) {
 			// [?] Provide help on /auth
 			if (args.length <= 0) return false;
-			
+
 			if (args[0].equals("list"))
 				return authList(sender);
 			else
 				return authLogin(sender, args);
 		}
-		
-		return false; 
+
+		return false;
 	}
-	
+
 	public boolean authList(CommandSender sender) {
 		sender.sendMessage("Registered players: \n" + getAuthDatabase().toString());
 		return true;
 	}
-	
+
 	public boolean authLogin(CommandSender sender, String[] args) {
 		if (args.length < 1) return false;
-		
+
 		// [?] We can only work with Player/CraftPlayer objects...
 		if (sender instanceof Player) {
 			Player player = (Player)sender;
 			String username = player.getName();
-			
+
 			AuthDatabase db = getAuthDatabase();
-			
+
 			// [?] Catch people that already have a name
-			if (!username.equals("Player")) {
+      if (!username.substring(0, 6).equalsIgnoreCase("Player")) {
 				// [?] Already have a name, and already in the db? Must be premium or already authenticated.
 				if (db.get(username) != null) {
 					player.sendMessage("You are already authenticated!");
@@ -96,7 +94,7 @@ public class AuthPlayer extends JavaPlugin {
 					player.sendMessage("You have registered and " +
 							"authenticated your name. Welcome, " + username + "!");
 				}
-				
+
 				return true;
 			} else {
 				// [?] I'm a guest, help!
@@ -104,15 +102,15 @@ public class AuthPlayer extends JavaPlugin {
 					player.sendMessage("Please supply a username AND password.");
 					return true;
 				}
-				
+
 				String loginName = args[0];
 				String password = args[1];
-				
-				if (loginName.equals("Player")) {
-					player.sendMessage("Nice try, sly guy.");
+
+				if (loginName.substring(0, 6).equalsIgnoreCase("Player")) {
+					player.sendMessage("Please do not start your username with \"player\". Try again.");
 					return true;
 				}
-			
+
 				// [?] Does the player exist on the server?
 				if (db.get(loginName) == null) {
 					db.add(loginName, new AuthInfo(player, password));
@@ -140,10 +138,10 @@ public class AuthPlayer extends JavaPlugin {
 							player.sendMessage("Could not authenticate with the given credentials.");
 						}
 					}
-				}					
+				}
 			}
 		}
-		
+
 		return true;
 	}
 
