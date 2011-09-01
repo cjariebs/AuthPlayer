@@ -89,7 +89,31 @@ public class AuthDatabase {
 			}
 		}
 	}
-	
+
+	 public void delete(String user) {
+	    authMap.remove(user.toLowerCase());
+	    FileOutputStream fileStream = null;
+	    ObjectOutputStream objStream = null;
+	    File file = new File(plugin.getDataFolder() + "/auth.dat");
+	    try {
+	      fileStream = new FileOutputStream(file.getAbsolutePath());
+	      objStream = new ObjectOutputStream(fileStream);
+	      objStream.writeObject(authMap);
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally {
+	      // [?] try to self-contain the error handling for this method
+	      try {
+	        if (objStream != null)
+	          objStream.close();
+	        if (fileStream != null)
+	          fileStream.close();
+	      } catch (IOException e) {
+	        plugin.log.severe(e.getMessage());
+	      }
+	    }
+	  }
+
 	public AuthInfo get(String name) {
 		return authMap.get(name.toLowerCase());
 	}

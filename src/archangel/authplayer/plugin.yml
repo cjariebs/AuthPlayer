@@ -1,14 +1,16 @@
 name: AuthPlayer
 main: archangel.authplayer.AuthPlayer
-version: 1.1
+version: 1.2
+description: Provides alternate login when minecraft.net login servers are down.
+authors: [Arcalyth, Thulinma]
 
 commands:
-    listauth:
-        description: List authenticated players.
     auth:
-        description: Authenticate a player.
+        description: AuthPlayer account maintenance command.
         usage: |
-            (Warning: It is not recommended to use the same password for this authentication plugin as your actual Minecraft account.)
-            ---
-            /auth [username] <password> - Register or log into account.
-            /auth list - List registered players
+            /auth <username> <password> - Log into or create an account (as guest).
+            /auth <password> - Create an account (as premium user).
+            /auth list - List registered players.
+            /auth delete <username> - Delete a registered player.
+            /auth password <new password> - Change your password.
+            /auth create <username> <password> - Create a new account for somebody else.
